@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 @DisplayNameGeneration(ReplaceUnderscores.class)
 class ExchangeGoodsInputValidatorTest {
 
+  ExchangeGoodsInputValidator validator = new ExchangeGoodsInputValidator();
   @Nested
   class validateInput_메서드는 {
 
@@ -24,7 +25,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = " ";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("아무런 입력이 없습니다. 원하는 요청을 입력해주세요");
       }
@@ -36,7 +37,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("아무런 입력이 없습니다. 원하는 요청을 입력해주세요");
       }
@@ -48,7 +49,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = " ";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("아무런 입력이 없습니다. 원하는 요청을 입력해주세요");
       }
@@ -60,7 +61,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "1231231231231231232131231231231231232132132131231232132131232132132132321";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("요청 입력은 최대 30글자 입니다.");
       }
@@ -72,7 +73,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "NON";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("잘못된 요청입니다. HELP 요청으로 사용법을 확인해주세요");
       }
@@ -84,7 +85,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CHECK";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("상품코드 입력이 없습니다. CHECK 요청은 CHECK [상점코드] 형식으로 입력되어야 합니다.");
       }
@@ -96,7 +97,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CHECK 123123123 123123111";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("한번에 1가지의 상품코드만 요청할 수 있습니다. 숫자로만 구성된 9자리의 상품코드를 입력해주세요.");
       }
@@ -108,7 +109,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CHECK 123123";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("잘못된 상품코드 입니다. 숫자로만 구성된 9자리의 상품코드를 입력해주세요.");
       }
@@ -120,7 +121,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CHECK 123123123";
       @Test
       void true를_반환한다 (){
-        assertThat(ExchangeGoodsInputValidator.validateInput(INPUT)).isTrue();
+        assertThat(validator.validateInput(INPUT)).isTrue();
       }
     }
 
@@ -130,7 +131,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "HELP";
       @Test
       void true를_반환한다 (){
-        assertThat(ExchangeGoodsInputValidator.validateInput(INPUT)).isTrue();
+        assertThat(validator.validateInput(INPUT)).isTrue();
       }
     }
 
@@ -140,7 +141,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("상점코드, 상품코드 입력이 없습니다. CLAIM 요청은 CLAIM [상점코드] [상품코드] 형식으로 입력되어야 합니다");
       }
@@ -152,7 +153,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM abscse";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("상품코드 입력이 없습니다. CLAIM 요청은 CLAIM [상점코드] [상품코드] 형식으로 입력되어야 합니다");
       }
@@ -164,7 +165,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM abscs 123123123";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("잘못된 상점코드 입니다. a-z, A-z로만 구성된 6자리의 상점코드를 입력해주세요");
       }
@@ -176,7 +177,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM abscse 12312";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("잘못된 상품코드 입니다. 숫자로만 구성된 9자리의 상품코드를 입력해주세요.");
       }
@@ -188,7 +189,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM abscse 123121 123123";
       @Test
       void InvalidInputException_예외가_발생한다 (){
-        assertThatThrownBy(() -> ExchangeGoodsInputValidator.validateInput(INPUT))
+        assertThatThrownBy(() -> validator.validateInput(INPUT))
             .isInstanceOf(InvalidInputException.class)
             .hasMessage("한번에 1가지의 상품코드만 요청할 수 있습니다. 숫자로만 구성된 9자리의 상품코드를 입력해주세요.");
       }
@@ -200,7 +201,7 @@ class ExchangeGoodsInputValidatorTest {
       final String INPUT = "CLAIM abcdef 123123123";
       @Test
       void true를_반환한다 (){
-        assertThat(ExchangeGoodsInputValidator.validateInput(INPUT)).isTrue();
+        assertThat(validator.validateInput(INPUT)).isTrue();
       }
     }
   }
