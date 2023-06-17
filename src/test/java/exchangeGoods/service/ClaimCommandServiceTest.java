@@ -2,6 +2,12 @@ package exchangeGoods.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import exchangeGoods.exception.InvalidGoodsCodeException;
@@ -24,6 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("ClaimCommandService 테스트")
 class ClaimCommandServiceTest {
+
   ClaimCommandService claimCommandService;
   @Mock
   Storage storeStorage;
@@ -47,9 +54,14 @@ class ClaimCommandServiceTest {
       @Test
       void InvalidGoodsCodeException_예외가_발생한다() {
         when(goodsStorage.findByCode(GOODS_CODE)).thenReturn(Optional.empty());
+        assertAll(
+            () -> assertThatThrownBy(() -> claimCommandService.claimGoods(createClaimServiceDto()))
+                .isInstanceOf(InvalidGoodsCodeException.class),
+            () -> verify(goodsStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, never()).findByCode(anyString()),
+            () -> verify(storeStorage, never()).save(any(Store.class))
+        );
 
-        assertThatThrownBy(() -> claimCommandService.claimGoods(createClaimServiceDto()))
-            .isInstanceOf(InvalidGoodsCodeException.class);
       }
     }
 
@@ -62,7 +74,13 @@ class ClaimCommandServiceTest {
         when(goodsStorage.findByCode(GOODS_CODE)).thenReturn(Optional.of(givenGoods));
 
         String message = claimCommandService.claimGoods(createClaimServiceDto());
-        assertThat(message).isEqualTo(ExchangeStatus.EXCHANGED.getMessage());
+
+        assertAll(
+            () -> assertThat(message).isEqualTo(ExchangeStatus.EXCHANGED.getMessage()),
+            () -> verify(goodsStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, never()).findByCode(anyString()),
+            () -> verify(storeStorage, never()).save(any(Store.class))
+        );
       }
     }
 
@@ -75,8 +93,13 @@ class ClaimCommandServiceTest {
         when(goodsStorage.findByCode(GOODS_CODE)).thenReturn(Optional.of(givenGoods));
         when(storeStorage.findByCode(STORE_CODE)).thenReturn(Optional.empty());
         String message = claimCommandService.claimGoods(createClaimServiceDto());
-        assertThat(message)
-            .isEqualTo("상품코드: %s 가 상점코드: %s 에서 사용되었습니다.", GOODS_CODE, STORE_CODE);
+        assertAll(
+            () -> assertThat(message)
+                .isEqualTo("상품코드: %s 가 상점코드: %s 에서 사용되었습니다.", GOODS_CODE, STORE_CODE),
+            () -> verify(goodsStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, times(1)).save(any(Store.class))
+        );
       }
     }
 
@@ -90,6 +113,13 @@ class ClaimCommandServiceTest {
         when(goodsStorage.findByCode(GOODS_CODE)).thenReturn(Optional.of(givenGoods));
         when(storeStorage.findByCode(STORE_CODE)).thenReturn(Optional.of(givenStore));
         String message = claimCommandService.claimGoods(createClaimServiceDto());
+        assertAll(
+            () -> assertThat(message)
+                .isEqualTo("상품코드: %s 가 상점코드: %s 에서 사용되었습니다.", GOODS_CODE, STORE_CODE),
+            () -> verify(goodsStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, times(1)).findByCode(anyString()),
+            () -> verify(storeStorage, times(1)).save(any(Store.class))
+        );
         assertThat(message)
             .isEqualTo("상품코드: %s 가 상점코드: %s 에서 사용되었습니다.", GOODS_CODE, STORE_CODE);
       }
