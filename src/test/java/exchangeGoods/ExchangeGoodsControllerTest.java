@@ -13,6 +13,9 @@ import static org.mockito.Mockito.when;
 import exchangeGoods.exception.InvalidGoodsCodeException;
 import exchangeGoods.exception.InvalidInputException;
 import exchangeGoods.service.CommandRequestDto;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +24,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayNameGeneration(ReplaceUnderscores.class)
+@DisplayName("ExchangeGoodsController 테스트")
 class ExchangeGoodsControllerTest {
 
   @InjectMocks
