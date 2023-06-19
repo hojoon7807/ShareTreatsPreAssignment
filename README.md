@@ -18,6 +18,7 @@ Lombok
 ### 사전과제 
 
 ### 공통사항
+[사전과제 링크](https://replit.com/@ujuj0202/ShareTreatsPreAssignment-1?v=1)
 
 EXCHANGEGOODS, HEADCOUNTOFDEPT, PACHINKOGOODS 명령어를 통해 원하는 서비스를 실행 할 수 있습니다.
 
