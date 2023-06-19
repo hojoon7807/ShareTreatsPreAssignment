@@ -4,11 +4,13 @@ import exchangeGoods.ExchangeGoodsApp;
 import exchangeGoods.ExchangeGoodsCommandManager;
 import exchangeGoods.ExchangeGoodsController;
 import exchangeGoods.ExchangeGoodsInputValidator;
+import headcountOfDept.HeadcountOfDeptApp;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import pachinkoGoods.PachinkoGoodsApp;
 
 public class SharetreatsAssignmentApplication {
 
@@ -29,6 +31,8 @@ public class SharetreatsAssignmentApplication {
     service.put(ServiceName.EXCHANGEGOODS, new ExchangeGoodsApp(
         new ExchangeGoodsController(new ExchangeGoodsCommandManager(),
             new ExchangeGoodsInputValidator()), br));
+    service.put(ServiceName.PACHINKO, new PachinkoGoodsApp());
+    service.put(ServiceName.HEADCOUNTOFDEPT, new HeadcountOfDeptApp());
   }
 
   public static void main(String[] args) throws IOException {
